@@ -3,14 +3,23 @@ import pandas as pd
 from datetime import date
 from utils.calendar_utils import get_users, add_reminder, get_reminders, update_reminder, delete_reminder
 from utils.calendar_utils import get_all_reminders, search_reminders, get_assigned_reminders, search_assigned_reminders
-from Login import login_page
+from Login import login_page, cookie_controller, clear_cookies
 from utils.navbar import navbar
 #import streamlit.components.v1 as components
 from streamlit_calendar import calendar
 
+st.set_page_config(initial_sidebar_state="collapsed")
+
 def calendar_page():
+    
     if "logged_in" not in st.session_state:
-        st.session_state.logged_in = False  # Default to not logged in
+        if cookie_controller.get("logged_in") == True:
+            st.session_state["user_id"] = cookie_controller.get("user_id")
+            st.session_state["username"] = cookie_controller.get("username")
+            st.session_state["role"] = cookie_controller.get("role")
+            st.session_state.logged_in = True
+        else:
+            st.session_state.logged_in = False
     
     if not st.session_state.logged_in:
         login_page()
@@ -31,6 +40,7 @@ def calendar_page():
                 """
                 st.markdown(hide_sidebar_css, unsafe_allow_html=True)
                 st.session_state.logged_in = False
+                clear_cookies()
                 for key in list(st.session_state.keys()):
                     del st.session_state[key]
                 st.write(
@@ -111,9 +121,9 @@ def calendar_page():
 
         # Display notes based on search query
         if filter_option == "Assigned BY You":
-            reminders = search_reminders(search_query, user_id) if search_query else get_reminders(str(user_id))
+            reminders = search_reminders(search_query, user_id) if search_query else get_reminders(user_id)
         else:
-            reminders = search_assigned_reminders(search_query, user_id) if search_query else get_assigned_reminders(str(user_id))
+            reminders = search_assigned_reminders(search_query, user_id) if search_query else get_assigned_reminders(user_id)
         
         st.markdown("""
             <p style="color: grey; font-size: 13px; margin-top: 0; margin-bottom: 0;">
@@ -250,8 +260,8 @@ def calendar_page():
         #Button to navigate to Search reminder section
         st.markdown("""
             <a href="#calendar">
-                <button style="position: fixed; right: 20px; bottom: 450px; padding: 10px 20px; width: 168px; background-color: #4CAF50; color: white; border: none; border-radius: 25px; font-size: 16px; cursor: pointer;">
-                    Calendar
+                <button style="position: fixed; right: 20px; bottom: 460px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
+                    📆
                 </button>
             </a>
         """, unsafe_allow_html=True)
@@ -259,8 +269,8 @@ def calendar_page():
         #Button to navigate to Search reminder section
         st.markdown("""
             <a href="#search_reminder">
-                <button style="position: fixed; right: 20px; bottom: 400px; padding: 10px 20px; width: 168px; background-color: #4CAF50; color: white; border: none; border-radius: 25px; font-size: 16px; cursor: pointer;">
-                    Search Reminder
+                <button style="position: fixed; right: 20px; bottom: 400px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
+                    🔍
                 </button>
             </a>
         """, unsafe_allow_html=True)
@@ -268,8 +278,8 @@ def calendar_page():
         #Button to navigate to Add new reminder section
         st.markdown("""
             <a href="#add_new_reminder">
-                <button style="position: fixed; right: 20px; bottom: 350px; padding: 10px 20px; width: 168px; background-color: #4CAF50; color: white; border: none; border-radius: 25px; font-size: 16px; cursor: pointer;">
-                    Add New Reminder
+                <button style="position: fixed; right: 20px; bottom: 340px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
+                    ➕
                 </button>
             </a>
         """, unsafe_allow_html=True)

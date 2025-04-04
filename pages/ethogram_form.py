@@ -1,19 +1,28 @@
 import streamlit as st
-from Login import login_page
+from Login import login_page, cookie_controller, clear_cookies
 from utils.navbar import navbar
 
+st.set_page_config(initial_sidebar_state="collapsed")
+
 def main():
+    
     if "logged_in" not in st.session_state:
-        st.session_state.logged_in = False  # Default to not logged in
+        if cookie_controller.get("logged_in") == True:
+            st.session_state["user_id"] = cookie_controller.get("user_id")
+            st.session_state["username"] = cookie_controller.get("username")
+            st.session_state["role"] = cookie_controller.get("role")
+            st.session_state.logged_in = True
+        else:
+            st.session_state.logged_in = False
     
     if not st.session_state.logged_in:
         login_page()
     else:
         navbar()
-
         with st.sidebar:
             if st.button("Logout", key="logout_button"):                
                 st.session_state.logged_in = False
+                clear_cookies()
                 for key in list(st.session_state.keys()):
                     del st.session_state[key]
                 st.write(

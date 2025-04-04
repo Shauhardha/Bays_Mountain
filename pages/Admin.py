@@ -1,14 +1,22 @@
 import streamlit as st
-from Login import login_page
+from Login import login_page, cookie_controller, clear_cookies
 from utils.user_utils import add_user, hash_password, check_email_exists, get_users_det, get_all_users, update_user, authenticate_user, update_password
 from utils.navbar import navbar
 import pandas as pd
 import time
 
+st.set_page_config(initial_sidebar_state="collapsed")
+
 def admin_page():
-    
+
     if "logged_in" not in st.session_state:
-        st.session_state.logged_in = False  # Default to not logged in
+        if cookie_controller.get("logged_in") == True:
+            st.session_state["user_id"] = cookie_controller.get("user_id")
+            st.session_state["username"] = cookie_controller.get("username")
+            st.session_state["role"] = cookie_controller.get("role")
+            st.session_state.logged_in = True
+        else:
+            st.session_state.logged_in = False
     
     if not st.session_state.logged_in:
         login_page()
@@ -28,6 +36,7 @@ def admin_page():
                 st.markdown(hide_sidebar_css, unsafe_allow_html=True)
 
                 st.session_state.logged_in = False
+                clear_cookies()
                 for key in list(st.session_state.keys()):
                     del st.session_state[key]
                 st.write(
@@ -201,8 +210,8 @@ def admin_page():
             #Button to navigate to add user section
             st.markdown("""
                 <a href="#add_users">
-                    <button style="position: fixed; right: 20px; bottom: 450px; padding: 10px 20px; width: 168px; background-color: #4CAF50; color: white; border: none; border-radius: 25px; font-size: 16px; cursor: pointer;">
-                        Add New User
+                    <button style="position: fixed; right: 20px; bottom: 460px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
+                    ➕
                     </button>
                 </a>
             """, unsafe_allow_html=True)
@@ -210,8 +219,8 @@ def admin_page():
             #Button to navigate to add user section
             st.markdown("""
                 <a href="#user_details">
-                    <button style="position: fixed; right: 20px; bottom: 400px; padding: 10px 20px; width: 168px; background-color: #4CAF50; color: white; border: none; border-radius: 25px; font-size: 16px; cursor: pointer;">
-                        Update User Info
+                    <button style="position: fixed; right: 20px; bottom: 400px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 22px; cursor: pointer;">
+                        🧑‍💼
                     </button>
                 </a>
             """, unsafe_allow_html=True)
@@ -219,8 +228,8 @@ def admin_page():
             #Button to navigate to add user section
             st.markdown("""
                 <a href="#password_change">
-                    <button style="position: fixed; right: 20px; bottom: 350px; padding: 10px 20px; width: 168px; background-color: #4CAF50; color: white; border: none; border-radius: 25px; font-size: 16px; cursor: pointer;">
-                        Update Password
+                    <button style="position: fixed; right: 20px; bottom: 340px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
+                        🔏
                     </button>
                 </a>
             """, unsafe_allow_html=True)

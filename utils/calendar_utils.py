@@ -59,7 +59,7 @@ def get_reminders(user_id):
     FROM reminders
     WHERE user_id = %s
     """
-    params = (user_id)
+    params = ([user_id])
     cursor.execute(query, params)
     reminders = cursor.fetchall()
     conn.close()
@@ -131,7 +131,7 @@ def get_assigned_reminders(user_id):
     FROM reminders
     WHERE assigned_to = %s
     """
-    params = (user_id)
+    params = ([user_id])
     cursor.execute(query, params)
     reminders = cursor.fetchall()
     conn.close()

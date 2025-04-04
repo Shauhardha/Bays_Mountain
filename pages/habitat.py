@@ -1,12 +1,21 @@
 import streamlit as st
 from utils.animal_utils import insert_animal, insert_animal_profile, insert_habitat, get_habitat, get_animal, get_animal_habitat
-from Login import login_page
+from Login import login_page, cookie_controller, clear_cookies
 from utils.navbar import navbar
 import time
 
+st.set_page_config(initial_sidebar_state="collapsed")
+
 def habitat_page():
+    
     if "logged_in" not in st.session_state:
-        st.session_state.logged_in = False  # Default to not logged in
+        if cookie_controller.get("logged_in") == True:
+            st.session_state["user_id"] = cookie_controller.get("user_id")
+            st.session_state["username"] = cookie_controller.get("username")
+            st.session_state["role"] = cookie_controller.get("role")
+            st.session_state.logged_in = True
+        else:
+            st.session_state.logged_in = False
     
     if not st.session_state.logged_in:
         login_page()
@@ -27,6 +36,7 @@ def habitat_page():
                 """
                 st.markdown(hide_sidebar_css, unsafe_allow_html=True)
                 st.session_state.logged_in = False
+                clear_cookies()
                 for key in list(st.session_state.keys()):
                     del st.session_state[key]
                 st.write(
@@ -113,34 +123,6 @@ def habitat_page():
                     msg = st.error("All fields are required.")
                     time.sleep(2)
                     msg.empty()
-
-        #Button to navigate to add user section
-        st.markdown("""
-            <a href="#add_habitat">
-                <button style="position: fixed; right: 20px; bottom: 450px; padding: 10px 20px; width: 168px; background-color: #4CAF50; color: white; border: none; border-radius: 25px; font-size: 16px; cursor: pointer;">
-                    Add Habitat
-                </button>
-            </a>
-        """, unsafe_allow_html=True)
-
-        #Button to navigate to add user section
-        st.markdown("""
-            <a href="#add_animal">
-                <button style="position: fixed; right: 20px; bottom: 400px; padding: 10px 20px; width: 168px; background-color: #4CAF50; color: white; border: none; border-radius: 25px; font-size: 16px; cursor: pointer;">
-                    Add Animal Type
-                </button>
-            </a>
-        """, unsafe_allow_html=True)
-
-        #Button to navigate to add user section
-        st.markdown("""
-            <a href="#add_profile">
-                <button style="position: fixed; right: 20px; bottom: 350px; padding: 10px 20px; width: 168px; background-color: #4CAF50; color: white; border: none; border-radius: 25px; font-size: 16px; cursor: pointer;">
-                    Add Animal Profile
-                </button>
-            </a>
-        """, unsafe_allow_html=True)
-
 
 if __name__ == "__main__":
     habitat_page()

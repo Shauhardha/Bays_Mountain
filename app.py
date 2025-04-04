@@ -1,30 +1,35 @@
 import streamlit as st
 from utils.notes_utils import get_notes_app
 from utils.calendar_utils import get_all_reminders
-from Login import login_page
+from Login import login_page, cookie_controller, clear_cookies
 from utils.navbar import navbar
+#from utils.cookies_manage import cookie_controller, clear_cookies
 
 # Set page configuration early
 st.set_page_config(initial_sidebar_state="collapsed")
 
 def main():
-    if "logged_in" not in st.session_state:
-        st.session_state.logged_in = False  # Default to not logged in
-    
-    if not st.session_state.logged_in:
-        login_page()
-    else:
-        if "logged_in" not in st.session_state:
-            st.session_state.logged_in = False
-        else:
-            # Extract query parameters for navigation
-            query_params = st.query_params                    # experimental_get_query_params (Removed this because its outdated)
-            page = query_params.get("page", ["main"])[0]
+    # if "logged_in" not in st.session_state:
+    #     st.session_state.logged_in = False  # Default to not logged in
 
-            if page == "notes":
-                dashboard()
-            else:
-                dashboard()
+    if "logged_in" not in st.session_state:
+        if cookie_controller.get("logged_in") == True:
+            st.session_state["user_id"] = cookie_controller.get("user_id")
+            st.session_state["username"] = cookie_controller.get("username")
+            st.session_state["role"] = cookie_controller.get("role")
+            st.session_state.logged_in = True
+        else:
+            st.session_state.logged_in = False
+
+    # Prevent resetting session state on refresh
+    if not st.session_state.get("logged_in", False):
+        login_page()
+        return
+    
+    query_params = st.query_params                    # experimental_get_query_params (Removed this because its outdated)
+    page = query_params.get("page", ["main"])[0]
+
+    dashboard()
 
 
 def dashboard():
@@ -35,12 +40,8 @@ def dashboard():
 
     user_id = st.session_state["user_id"]
 
-    fil1, fil2 = st.columns([1, 0.25])
-    with fil1:
-        st.title("BaysTrack Dashboard")
-    with fil2:
-        filter_option = st.radio("Reminder", ("All", "Self"), horizontal=True)
     
+    st.title("BaysTrack Dashboard")
     # Wrap the notes content inside the white-bordered container
     col1, col2 = st.columns([1, 1])
     with col1: 
@@ -54,8 +55,12 @@ def dashboard():
             else:
                 st.write("No notes available.")
 
-    with col2: 
-        st.header("Reminders")
+    with col2:  
+        fil1, fil2 = st.columns([1, 0.7])
+        with fil1:
+            st.header("Reminders")    
+        with fil2:
+            filter_option = st.radio("Reminder", ("All", "Self"), horizontal=True)
         with st.container(height=300, border=True):
             if filter_option == "All":
                 var = ''
@@ -73,12 +78,19 @@ def dashboard():
             else:
                 st.write("No reminders available.")
 
-
     with st.sidebar:
         if st.button("Logout", key="logout_button"):
-            #del st.session_state["user_id"]
-            #del st.session_state["username"]
+            # Inject custom CSS to collapse the sidebar -- Need to rework on this
+            hide_sidebar_css = """
+                <style>
+                    [data-testid="stSidebar"] {
+                        display: none;
+                    }
+                </style>
+            """
+            st.markdown(hide_sidebar_css, unsafe_allow_html=True)
             st.session_state.logged_in = False
+            clear_cookies()
             st.rerun()
             
 
@@ -99,20 +111,6 @@ def dashboard():
             """,
             unsafe_allow_html=True,
         )
-
-
-def notes_page():
-    """
-    Displays the Notes page.
-    """
-    st.title("Notes Section")
-    notes = get_notes_app()
-    if notes:
-        for note in notes:
-            st.subheader(note[2])  # Assuming title is the third column
-            st.write(note[3])  # Assuming content is the fourth column
-    else:
-        st.write("No notes available.")
 
 if __name__ == "__main__":
     main()

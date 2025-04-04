@@ -1,23 +1,32 @@
 import streamlit as st
-from Login import login_page
+from Login import login_page, cookie_controller, clear_cookies
 from utils.navbar import navbar
 from streamlit_free_text_select import st_free_text_select
 import uuid
 from utils.feeding_utils import add_feedinglog, add_medslog
 from datetime import datetime
 
+st.set_page_config(initial_sidebar_state="collapsed")
+
 def feeding_log():
+    
     if "logged_in" not in st.session_state:
-        st.session_state.logged_in = False  # Default to not logged in
+        if cookie_controller.get("logged_in") == True:
+            st.session_state["user_id"] = cookie_controller.get("user_id")
+            st.session_state["username"] = cookie_controller.get("username")
+            st.session_state["role"] = cookie_controller.get("role")
+            st.session_state.logged_in = True
+        else:
+            st.session_state.logged_in = False
     
     if not st.session_state.logged_in:
         login_page()
     else:
         navbar()
-
         with st.sidebar:
             if st.button("Logout", key="logout_button"):                
                 st.session_state.logged_in = False
+                clear_cookies()
                 for key in list(st.session_state.keys()):
                     del st.session_state[key]
                 st.write(
@@ -122,10 +131,10 @@ def feeding_log():
 
             st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
             st.write("What did you feed? (Weight per animal in lbs)")
-            col1, col2 = st.columns([1, 1])
+            col1, col2 = st.columns([0.75, 0.75])
 
             with col1:
-                with st.container(border=True):
+                with st.container(border=False):
                     
                     nb_amount_fed = st.number_input("Nebraska Brand", value=None, placeholder="Enter the amount fed...", min_value=0, max_value=20, key="nb_amount_fed")
 
@@ -136,7 +145,7 @@ def feeding_log():
                     fruits_amount_fed = st.number_input("Fresh Fruits", value=None, placeholder="Enter the amount fed...", min_value=0, max_value=20, key="fruits_amount_fed")
 
             with col2:
-                with st.container(border=True):
+                with st.container(border=False):
 
                     veg_amount_fed = st.number_input("Fresh Vegetables", value=None, placeholder="Enter the amount fed...", min_value=0, max_value=20, key="veg_amount_fed")
 
