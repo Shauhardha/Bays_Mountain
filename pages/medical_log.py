@@ -488,8 +488,8 @@ def medical_log_page():
         #Button to navigate to search reminder section
         st.markdown("""
             <a href="#medical_log">
-                <button style="position: fixed; right: 20px; bottom: 400px; padding: 10px 20px; width: 168px; background-color: #4CAF50; color: white; border: none; border-radius: 25px; font-size: 16px; cursor: pointer;">
-                    Add Medical Log
+                <button style="position: fixed; right: 10px; bottom: 400px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 22px; cursor: pointer;">
+                    ➕
                 </button>
             </a>
         """, unsafe_allow_html=True)
@@ -497,8 +497,8 @@ def medical_log_page():
         #Button to navigate to Add new reminder section
         st.markdown("""
             <a href="#vet_log">
-                <button style="position: fixed; right: 20px; bottom: 350px; padding: 10px 20px; width: 168px; background-color: #4CAF50; color: white; border: none; border-radius: 25px; font-size: 16px; cursor: pointer;">
-                    Add Vet Log
+                <button style="position: fixed; right: 10px; bottom: 340px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 22px; cursor: pointer;">
+                    👨‍⚕️
                 </button>
             </a>
         """, unsafe_allow_html=True)
