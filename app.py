@@ -6,7 +6,7 @@ from utils.navbar import navbar
 #from utils.cookies_manage import cookie_controller, clear_cookies
 
 # Set page configuration early
-st.set_page_config(initial_sidebar_state="collapsed")
+#st.set_page_config(initial_sidebar_state="collapsed")
 
 def main():
     # if "logged_in" not in st.session_state:
