@@ -32,6 +32,20 @@ def notes_page():
         username = st.session_state["username"]
 
         navbar()
+        # hide_sidebar_css = """
+        #             <style>
+        #                 [data-testid="collapsedControl"] {
+        #                     display: none;
+        #                 }
+        #                 [data-testid="stSidebar"] {
+        #                     display: none;
+        #                 }
+        #             </style>
+        #         """
+        
+        # st.markdown(hide_sidebar_css, unsafe_allow_html=True)
+
+        
         with st.sidebar:
             if st.button("Logout", key="logout_button"):                
                 
@@ -173,7 +187,7 @@ def notes_page():
         #Button to navigate to search reminder section
         st.markdown("""
             <a href="#search_notes">
-                <button style="position: fixed; right: 20px; bottom: 400px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
+                <button style="position: fixed; right: 10px; bottom: 400px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
                     🔍
                 </button>
             </a>
@@ -182,7 +196,7 @@ def notes_page():
         #Button to navigate to Add new reminder section
         st.markdown("""
             <a href="#add_new_notes">
-                <button style="position: fixed; right: 20px; bottom: 340px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;"> 
+                <button style="position: fixed; right: 10px; bottom: 340px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;"> 
                     ➕
                 </button>
             </a>

@@ -260,7 +260,7 @@ def calendar_page():
         #Button to navigate to Search reminder section
         st.markdown("""
             <a href="#calendar">
-                <button style="position: fixed; right: 20px; bottom: 460px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
+                <button style="position: fixed; right: 10px; bottom: 460px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
                     📆
                 </button>
             </a>
@@ -269,7 +269,7 @@ def calendar_page():
         #Button to navigate to Search reminder section
         st.markdown("""
             <a href="#search_reminder">
-                <button style="position: fixed; right: 20px; bottom: 400px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
+                <button style="position: fixed; right: 10px; bottom: 400px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
                     🔍
                 </button>
             </a>
@@ -278,7 +278,7 @@ def calendar_page():
         #Button to navigate to Add new reminder section
         st.markdown("""
             <a href="#add_new_reminder">
-                <button style="position: fixed; right: 20px; bottom: 340px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
+                <button style="position: fixed; right: 10px; bottom: 340px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
                     ➕
                 </button>
             </a>
