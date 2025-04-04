@@ -1,7 +1,7 @@
 import psycopg2
 import streamlit as st
 
-def init_postgres_connection():
+def init_postgres_connection_local():
     """
     Initializes a connection to the PostgreSQL database.
     """
@@ -18,7 +18,7 @@ def init_postgres_connection():
         raise
 
 
-def init_postgres_connection_on():
+def init_postgres_connection():
     """
     Initializes a connection to the PostgreSQL database.
     """
