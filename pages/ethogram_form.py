@@ -37,21 +37,38 @@ def main():
         st.title("Log Type")
         st.write("Select the type of log you want to record:")
 
-        col1, col2 = st.columns([1, 1])
-        with col1:
-            st.subheader("Mammal Keeper Log")
-            with st.container(border=True):
-                if st.button("Feeding Log", use_container_width=True):
-                    st.switch_page("pages/feeding_log.py")
+        st.subheader("Mammal Keeper Log")
+        with st.container(border=True):
+            if st.button("Feeding Log", use_container_width=True):
+                st.switch_page("pages/feeding_log.py")
 
-                if st.button("Enrichment Log", use_container_width=True):
-                    st.switch_page("pages/enrichment_log.py")
+            if st.button("Enrichment Log", use_container_width=True):
+                st.switch_page("pages/enrichment_log.py")
 
-                if st.button("Habitat Cleaning Log", use_container_width=True):
-                    st.switch_page("pages/habitat_cleaning_log.py")
+            if st.button("Habitat Cleaning Log", use_container_width=True):
+                st.switch_page("pages/habitat_cleaning_log.py")
 
-                if st.button("Medical Log", use_container_width=True):
-                    st.switch_page("pages/medical_log.py")
+            if st.button("Medical Log", use_container_width=True):
+                st.switch_page("pages/medical_log.py")
+
+        st.write("---")
+
+        st.subheader("Watershed/Herpetarium Keeper Log")
+        with st.container(border=True):
+
+            filter_option = st.radio("Log Type", ("Watershed", "Herpetarium"), horizontal=True)
+
+            st.session_state["water_herp_log"] = filter_option
+            cookie_controller.set("water_herp_log", filter_option)
+
+            if st.button("Feeding Log ", use_container_width=True):
+                st.switch_page("pages/water_herp_feeding_log.py")
+
+            if st.button("Medical Log ", use_container_width=True):
+                st.switch_page("pages/water_herp_medical_log.py")
+
+            if st.button("Daily Care", use_container_width=True):
+                st.switch_page("pages/water_herp_dailycare_log.py")
 
 if __name__ == "__main__":
     main()

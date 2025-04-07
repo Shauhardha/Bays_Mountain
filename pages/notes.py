@@ -2,8 +2,8 @@ import streamlit as st
 from datetime import datetime
 from utils.notes_utils import get_notes, add_note, search_notes, add_category, add_tag, pin_note, delete_note
 from Login import login_page, cookie_controller, clear_cookies
-from utils.navbar import navbar
-#from streamlit_quill import st_quill
+from utils.navbar import navbar, auto_collapse_sidebar
+import time
 
 st.set_page_config(initial_sidebar_state="collapsed")
 
@@ -14,7 +14,7 @@ def notes_page():
         st.session_state.logged_in = False  # Flag for login redirection
         st.experimental_rerun()  # Refresh the page to redirect to login
     '''
-
+    
     if "logged_in" not in st.session_state:
         if cookie_controller.get("logged_in") == True:
             st.session_state["user_id"] = cookie_controller.get("user_id")
@@ -31,7 +31,9 @@ def notes_page():
         user_id = st.session_state["user_id"]
         username = st.session_state["username"]
 
+        auto_collapse_sidebar()
         navbar()
+        
         # hide_sidebar_css = """
         #             <style>
         #                 [data-testid="collapsedControl"] {
@@ -144,6 +146,7 @@ def notes_page():
                             if st.button(f"Delete Note", key=f"delete_{note_id}"):
                                 delete_note(note_id)  # Call the delete_note function
                                 st.success("Note deleted successfully!")
+                                time.sleep(1)
                                 st.rerun()  # Refresh the page to update the notes list 
             else:
                 st.info("No notes available.")
@@ -181,6 +184,7 @@ def notes_page():
                         add_tag(note_id, tag.strip())
 
                     st.success("Note added successfully!")
+                    time.sleep(1)
                     st.rerun()  # Refresh the page to show updated notes
 
 

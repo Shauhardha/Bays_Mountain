@@ -8,7 +8,7 @@ cookie_controller = CookieController()
 
 def login_page():
     st.title("Login")
-    email = st.text_input("Email")
+    email = st.text_input("UserName")
     password = st.text_input("Password", type="password")
     login_button = st.button("Login")
 

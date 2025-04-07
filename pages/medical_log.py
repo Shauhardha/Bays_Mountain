@@ -149,6 +149,9 @@ def medical_log_page():
             #Injury Section
             injury = st.radio("Medication tied to Injury?", horizontal=True, options=["No", "Yes"], key="injury_tie")
 
+            vet_notified = "No"
+            vet_response = "None"
+
             if injury == "Yes":
                 with st.container(border=True):
                     injury_type = st.selectbox("Injury Type:", ["New", "Old"], index=None, key="injury_type")
@@ -326,12 +329,14 @@ def medical_log_page():
                         st.error("Please fill out Examination Type.")
                         return
                     
-                    injury_id = add_injury_log(user_id, formatted_time, animal_group, animal_name, encounter_type, injury_type, injury_description, examination_type)
-
                     if vet_notified == "Yes":
                         if not vet_response:
                             st.error("Please fill out Vet Response.")
                             return
+                    
+                    injury_id = add_injury_log(user_id, formatted_time, animal_group, animal_name, encounter_type, injury_type, injury_description, examination_type)
+
+                    
 
                 if sedated == "Yes":
                     if not sedation_medication:

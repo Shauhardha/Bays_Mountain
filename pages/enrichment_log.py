@@ -5,6 +5,7 @@ from streamlit_free_text_select import st_free_text_select
 import datetime
 import uuid
 from utils.enrichment_utils import add_enrichment_log
+import time
 
 st.set_page_config(initial_sidebar_state="collapsed")
 
@@ -162,6 +163,7 @@ def enrichment_log():
                 )
                 
                 st.success("Enrichment log submitted successfully!")
+                time.sleep(1)
                 st.session_state.form_submitted = True
                 st.rerun()
                 

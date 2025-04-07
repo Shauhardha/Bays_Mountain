@@ -5,6 +5,7 @@ from streamlit_free_text_select import st_free_text_select
 import uuid
 from utils.habitat_cleaning_utils import add_habitat_cleaning_log
 from datetime import datetime
+import time
 
 st.set_page_config(initial_sidebar_state="collapsed")
 
@@ -168,6 +169,7 @@ def habitat_cleaning_log():
                 add_habitat_cleaning_log(user_id, formatted_time, animal_group, observation_type, habitat_name, findings, description, pad_cleaning, water_change, pond_cleaning, waste_removal, brush_removal, fence_maintenance)
 
                 st.success("Habitat cleaning log submitted successfully!")
+                time.sleep(1)
                 st.session_state.form_submitted = True
                 st.rerun()
 

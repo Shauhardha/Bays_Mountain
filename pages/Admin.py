@@ -90,7 +90,8 @@ def admin_page():
                         else:
                             hashed_password = hash_password(newpassword)
                             update_password(userid_g, hashed_password)
-                            st.success(f"Password updated successfully!") 
+                            st.success(f"Password updated successfully!")
+                            time.sleep(1) 
         else:
 
             st.title("Admin Page")
@@ -116,6 +117,7 @@ def admin_page():
                             hashed_password = hash_password(password)
                             add_user(username, email, hashed_password, role, active)
                             st.success(f"User {username} added successfully!")
+                            time.sleep(1)
                     else:
                         st.error("All fields are required.")
 
@@ -169,7 +171,7 @@ def admin_page():
                     if submitted:
                         update_user(user_id=selected_user_id, email=st.session_state.email_mod, role=st.session_state.role_mod, active=st.session_state.active_mod)
                         alert = st.success("User details updated successfully!")
-                        time.sleep(4) # Wait for 3 seconds
+                        time.sleep(2) # Wait for 3 seconds
                         st.experimental_rerun()
                         submitted.on_click=reset_selectbox
                 
@@ -196,7 +198,8 @@ def admin_page():
                         else:
                             hashed_password = hash_password(newpassword)
                             update_password(userid_g, hashed_password)
-                            st.success(f"Password updated successfully!")  
+                            st.success(f"Password updated successfully!")
+                            time.sleep(1)  
 
             st.header("User List")
             users = get_all_users()

@@ -76,7 +76,7 @@ def get_all_reminders(user_id):
     """
     if user_id:
         query_string += " where assigned_to = %s order by date"
-        cursor.execute(query_string, user_id)
+        cursor.execute(query_string, [user_id])
     else:
         query_string += "order by date desc"
         cursor.execute(query_string)

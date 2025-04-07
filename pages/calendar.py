@@ -5,7 +5,7 @@ from utils.calendar_utils import get_users, add_reminder, get_reminders, update_
 from utils.calendar_utils import get_all_reminders, search_reminders, get_assigned_reminders, search_assigned_reminders
 from Login import login_page, cookie_controller, clear_cookies
 from utils.navbar import navbar
-#import streamlit.components.v1 as components
+import time
 from streamlit_calendar import calendar
 
 st.set_page_config(initial_sidebar_state="collapsed")
@@ -161,6 +161,7 @@ def calendar_page():
                                 if st.button("Delete", key=f"delete_{i}"):
                                     delete_reminder(reminder[0])
                                     st.success("Reminder deleted successfully!")
+                                    time.sleep(1)
                                     st.rerun()
         
 
@@ -241,6 +242,7 @@ def calendar_page():
                             priority=priority
                         )
                         st.success("Reminder updated successfully!")
+                        time.sleep(1)
                         st.session_state.editing_reminder = None
                     else:  # Add new reminder
                         add_reminder(
@@ -252,6 +254,7 @@ def calendar_page():
                             priority=priority
                         )
                         st.success("Reminder added successfully!")
+                        time.sleep(1)
                     st.rerun()
                 else:
                     st.error("Title cannot be empty.")

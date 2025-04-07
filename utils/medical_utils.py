@@ -69,3 +69,29 @@ def add_vetlog(user_id, datetime, animal_group, individual_name, vet_name, check
     cursor.execute(query, params)
     conn.commit()
     conn.close()
+
+def add_watershed_med_log(user_id, datetime, individual, observation, intervention, notes):
+    conn = init_postgres_connection()
+    cursor = conn.cursor()
+    query = """
+    INSERT INTO watershed_med_log (user_id, datetime, individual, observation, intervention, watershed_med_notes)
+    VALUES (%s, %s, INITCAP(%s), %s, %s, %s)
+    RETURNING id;
+    """
+    params = (user_id, datetime, individual, observation, intervention, notes)
+    cursor.execute(query, params)
+    conn.commit()
+    conn.close()
+
+def add_herp_med_log(user_id, datetime, individual, observation, intervention, notes):
+    conn = init_postgres_connection()
+    cursor = conn.cursor()
+    query = """
+    INSERT INTO herp_med_log (user_id, datetime, individual, observation, intervention, herp_med_notes)
+    VALUES (%s, %s, INITCAP(%s), %s, %s, %s)
+    RETURNING id;
+    """
+    params = (user_id, datetime, individual, observation, intervention, notes)
+    cursor.execute(query, params)
+    conn.commit()
+    conn.close()

@@ -66,7 +66,7 @@ def dashboard():
                 var = ''
                 reminders = get_all_reminders(var)
             else:
-                reminders = get_all_reminders(str(user_id))
+                reminders = get_all_reminders(user_id)
             if reminders:
                 for reminder in reminders:
                     st.markdown(

@@ -5,6 +5,7 @@ from streamlit_free_text_select import st_free_text_select
 import uuid
 from utils.feeding_utils import add_feedinglog, add_medslog
 from datetime import datetime
+import time
 
 st.set_page_config(initial_sidebar_state="collapsed")
 
@@ -48,7 +49,7 @@ def feeding_log():
         if 'form_submitted' in st.session_state and st.session_state.form_submitted:
             # Clear session state values for the form inputs only when the form is submitted
             st.session_state["individual_name"] = ""
-            st.session_state["leftover_food"] = ""
+            st.session_state["leftover_food"] = None
             st.session_state["individual_notes"] = ""
 
             st.session_state.animal_key = get_unique_key("animal_select")
@@ -56,7 +57,7 @@ def feeding_log():
             st.session_state["food_key"] = ""
             
             st.session_state["nb_amount_fed"] = None
-            st.session_state["chkn_amount_fed"] = None
+            st.session_state["chicken_amount_fed"] = None
             st.session_state["prey_amount_fed"] = None
             st.session_state["fruits_amount_fed"] = None
             st.session_state["veg_amount_fed"] = None
@@ -136,24 +137,24 @@ def feeding_log():
             with col1:
                 with st.container(border=False):
                     
-                    nb_amount_fed = st.number_input("Nebraska Brand", value=None, placeholder="Enter the amount fed...", min_value=0, max_value=20, key="nb_amount_fed")
+                    nb_amount_fed = st.number_input("Nebraska Brand", value=None, step=.5, format="%.2f", placeholder="Enter the amount fed...", min_value=0.0, max_value=20.0, key="nb_amount_fed")
 
-                    chicken_amount_fed = st.number_input("Chicken", value=None, placeholder="Enter the amount fed...", min_value=0, max_value=20, key="chicken_amount_fed")
+                    chicken_amount_fed = st.number_input("Chicken", value=None, step=.5, format="%.2f", placeholder="Enter the amount fed...", min_value=0.0, max_value=20.0, key="chicken_amount_fed")
 
-                    prey_amount_fed = st.number_input("Whole Prey", value=None, placeholder="Enter the amount fed...", min_value=0, max_value=20, key="prey_amount_fed")
+                    prey_amount_fed = st.number_input("Whole Prey", value=None, step=.5, format="%.2f", placeholder="Enter the amount fed...", min_value=0.0, max_value=20.0, key="prey_amount_fed")
 
-                    fruits_amount_fed = st.number_input("Fresh Fruits", value=None, placeholder="Enter the amount fed...", min_value=0, max_value=20, key="fruits_amount_fed")
+                    fruits_amount_fed = st.number_input("Fresh Fruits", value=None, step=.5, format="%.2f", placeholder="Enter the amount fed...", min_value=0.0, max_value=20.0, key="fruits_amount_fed")
 
             with col2:
                 with st.container(border=False):
 
-                    veg_amount_fed = st.number_input("Fresh Vegetables", value=None, placeholder="Enter the amount fed...", min_value=0, max_value=20, key="veg_amount_fed")
+                    veg_amount_fed = st.number_input("Fresh Vegetables", value=None, step=.5, format="%.2f", placeholder="Enter the amount fed...", min_value=0.0, max_value=20.0, key="veg_amount_fed")
 
-                    fish_amount_fed = st.number_input("Fish", value=None, placeholder="Enter the amount fed...", min_value=0, max_value=20, key="fish_amount_fed")
+                    fish_amount_fed = st.number_input("Fish", value=None, step=.5, format="%.2f", placeholder="Enter the amount fed...", min_value=0.0, max_value=20.0, key="fish_amount_fed")
 
-                    mazuri_amount_fed = st.number_input("Mazuri Omnivore", value=None, placeholder="Enter the amount fed...", min_value=0, max_value=20, key="mazuri_amount_fed")
+                    mazuri_amount_fed = st.number_input("Mazuri Omnivore", value=None, step=.5, format="%.2f", placeholder="Enter the amount fed...", min_value=0.0, max_value=20.0, key="mazuri_amount_fed")
 
-                    amount_fed = st.number_input("Other Food", value=None, placeholder="Enter the amount fed...", min_value=0, max_value=20, key="amount_fed")
+                    amount_fed = st.number_input("Other Food", value=None, step=.5, format="%.2f", placeholder="Enter the amount fed...", min_value=0.0, max_value=20.0, key="amount_fed")
 
                     if amount_fed:
                         food_type = st.text_input('What "Other Food" were given?', key="food_key")
@@ -170,7 +171,7 @@ def feeding_log():
                 key=st.session_state.observation_key,
             )
             
-            leftover_food = st.text_input("Enter Leftover Food", key="leftover_food")   
+            leftover_food = st.number_input("Enter Leftover Food", value=None, step=.5, format="%.2f", placeholder="Enter the leftover amount...", min_value=0.0, max_value=20.0, key="leftover_food")   
             
             if leftover_food == "": leftover_food = "0"
 
@@ -269,6 +270,7 @@ def feeding_log():
                     nb_amount_fed, chicken_amount_fed, prey_amount_fed, fruits_amount_fed, veg_amount_fed, fish_amount_fed, mazuri_amount_fed, total_food_quantity)
 
                 st.success("Individual feeding log submitted successfully!")
+                time.sleep(1)
                 st.session_state.filter_option = filter_option
                 st.session_state.form_submitted = True
                 st.rerun()
