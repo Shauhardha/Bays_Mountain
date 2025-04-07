@@ -191,7 +191,7 @@ def notes_page():
         #Button to navigate to search reminder section
         st.markdown("""
             <a href="#search_notes">
-                <button style="position: fixed; right: 10px; bottom: 400px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
+                <button style="position: fixed; right: 10px; bottom: 400px; padding: 10px; width: 50px; height: 50px; background-color: #0b5394; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
                     🔍
                 </button>
             </a>
@@ -200,7 +200,7 @@ def notes_page():
         #Button to navigate to Add new reminder section
         st.markdown("""
             <a href="#add_new_notes">
-                <button style="position: fixed; right: 10px; bottom: 340px; padding: 10px; width: 50px; height: 50px; background-color: #4CAF50; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;"> 
+                <button style="position: fixed; right: 10px; bottom: 340px; padding: 10px; width: 50px; height: 50px; background-color: #0b5394; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;"> 
                     ➕
                 </button>
             </a>

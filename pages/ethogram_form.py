@@ -34,9 +34,10 @@ def main():
                 st.stop()
 
         # Log Type Selection Page
+        st.markdown('<div id="mammal_log"></div>', unsafe_allow_html=True)
         st.title("Log Type")
         st.write("Select the type of log you want to record:")
-
+        
         st.subheader("Mammal Keeper Log")
         with st.container(border=True):
             if st.button("Feeding Log", use_container_width=True):
@@ -53,6 +54,7 @@ def main():
 
         st.write("---")
 
+        st.markdown('<div id="herp_log"></div>', unsafe_allow_html=True)
         st.subheader("Watershed/Herpetarium Keeper Log")
         with st.container(border=True):
 
@@ -69,6 +71,25 @@ def main():
 
             if st.button("Daily Care", use_container_width=True):
                 st.switch_page("pages/water_herp_dailycare_log.py")
+
+        # original hex code for the green color #4CAF50
+
+        st.markdown("""
+            <a href="#mammal_log">
+                <button style="position: fixed; right: 10px; bottom: 400px; padding: 10px; width: 50px; height: 50px; background-color: #0b5394; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;">
+                    🦌
+                </button>
+            </a>
+        """, unsafe_allow_html=True)
+
+        #Button to navigate to Add new reminder section
+        st.markdown("""
+            <a href="#herp_log">
+                <button style="position: fixed; right: 10px; bottom: 340px; padding: 10px; width: 50px; height: 50px; background-color: #0b5394; color: white; border: none; border-radius: 50%; font-size: 20px; cursor: pointer;"> 
+                    🐢
+                </button>
+            </a>
+        """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
