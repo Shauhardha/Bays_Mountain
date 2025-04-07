@@ -6,7 +6,7 @@ def init_postgres_connection():
     Initializes a connection to the PostgreSQL database.
     """
     try:
-        conn = psycopg2.connect(
+        conn = psycopg2.connect_(
             host="localhost",  # Replace with your PostgreSQL host
             database="Bays_Mountain",  # Replace with your PostgreSQL database name
             user="bays_owner",  # Replace with your PostgreSQL username
@@ -18,7 +18,7 @@ def init_postgres_connection():
         raise
 
 
-def init_postgres_connection_():
+def init_postgres_connection():
     """
     Initializes a connection to the PostgreSQL database.
     """
