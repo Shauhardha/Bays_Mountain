@@ -5,6 +5,7 @@ from utils.navbar import navbar
 from streamlit_free_text_select import st_free_text_select
 import uuid
 import datetime
+import time
 
 st.set_page_config(initial_sidebar_state="collapsed")
 
@@ -84,6 +85,8 @@ def medical_log_page():
 
             st.session_state["med_log_notes"] = ""
 
+            st.session_state["log_time"] = datetime.datetime.now().time()
+
             st.session_state.form_submitted = False
             st.rerun()
 
@@ -98,6 +101,8 @@ def medical_log_page():
             st.session_state.check_key = get_unique_key("check_select")
             st.session_state["vet_location"] = None
             st.session_state["vet_exam_notes"] = ""
+
+            st.session_state["vet_log_time"] = datetime.datetime.now().time()
 
             st.session_state.vet_form_submitted = False
             st.rerun()
@@ -303,6 +308,12 @@ def medical_log_page():
 
             injury_description = st.text_area("Medical Log Notes and Findings:", key="med_log_notes")
 
+            st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+            log_time = st.time_input("Log Time", key="log_time", step=300)
+            st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+
+            formatted_log_time = log_time.strftime("%H:%M:%S")
+
             injury_id = 0
             sedation_id = 0
             medication_id = 0
@@ -334,7 +345,7 @@ def medical_log_page():
                             st.error("Please fill out Vet Response.")
                             return
                     
-                    injury_id = add_injury_log(user_id, formatted_time, animal_group, animal_name, encounter_type, injury_type, injury_description, examination_type)
+                    injury_id = add_injury_log(user_id, formatted_time, animal_group, animal_name, encounter_type, injury_type, injury_description, examination_type, formatted_log_time)
 
                     
 
@@ -352,7 +363,7 @@ def medical_log_page():
                     sedation_id = add_sedation_log(
                                         user_id, formatted_time, animal_group, animal_name, 
                                         encounter_type, sedation_medication, sed_dose, sedation_kit, 
-                                        sed_administration_type, formatted_time_in, formatted_time_out
+                                        sed_administration_type, formatted_time_in, formatted_time_out, formatted_log_time
                                     )
                     
                 if medication == "Yes":
@@ -407,16 +418,17 @@ def medical_log_page():
                                         user_id, formatted_time, animal_group, animal_name, encounter_type, 
                                         meds_type, meds_dose, administration_type, meds_taken,
                                         Meloxicam,Cephalexin,Gabapentin,Bravecto,Intercepter,
-                                        mel_dose,cep_dose,gap_dose,brav_dose,int_dose,ifOther
+                                        mel_dose,cep_dose,gap_dose,brav_dose,int_dose,ifOther, formatted_log_time
                                     )
                     
                     
                 add_medslog_main(
                     user_id, formatted_time, animal_group, animal_name, encounter_type, 
                     injury, injury_id, sedated, sedation_id, 
-                    vet_notified, vet_response, medication, medication_id, injury_description)
+                    vet_notified, vet_response, medication, medication_id, injury_description, formatted_log_time)
 
                 st.success("Medical log submitted successfully!")
+                time.sleep(1)
                 st.session_state.form_submitted = True
                 st.rerun()       
         
@@ -461,6 +473,12 @@ def medical_log_page():
             )
             location = st.selectbox("Vet Examination Location:", ["On-Site", "Took-to-vet"], index=None, key="vet_location")
             vet_exam_notes = st.text_area("Examination Notes:", key="vet_exam_notes")
+
+            st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+            vet_log_time = st.time_input("Log Time", key="vet_log_time", step=300)
+            st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+
+            formatted_vet_log_time = vet_log_time.strftime("%H:%M:%S")
             
             if st.button("Submit Vet Data", key="submit_vet"): 
                 
@@ -483,9 +501,10 @@ def medical_log_page():
                     st.error("Please fill out Vet Examination Notes. If there is not significant notes then type 'NSF'")
                     return 
                 
-                add_vetlog(user_id, formatted_time, vet_animal_group, vet_animal_name, vet_name, vet_check, location, vet_exam_notes)
+                add_vetlog(user_id, formatted_time, vet_animal_group, vet_animal_name, vet_name, vet_check, location, vet_exam_notes, formatted_vet_log_time)
                 
                 st.success("Vet log submitted successfully!")
+                time.sleep(1)
                 st.session_state.vet_form_submitted = True
                 st.rerun()
 

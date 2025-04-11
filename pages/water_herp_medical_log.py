@@ -60,6 +60,8 @@ def watershed_herpetarium_med_log():
             st.session_state["observation_key"] = ""
             st.session_state["intervention_key"] = ""
             st.session_state["notes_key"] = ""
+
+            st.session_state["log_time"] = datetime.now().time()
             
             st.session_state.form_submitted = False
             st.rerun() 
@@ -73,6 +75,12 @@ def watershed_herpetarium_med_log():
             intervention = st.text_input('Intervention*', key="intervention_key")
 
             notes = st.text_area("Notes", key="notes_key")
+
+            st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+            log_time = st.time_input("Log Time", key="log_time", step=300)
+            st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+
+            formatted_log_time = log_time.strftime("%H:%M:%S")
 
             submitted = st.button("Submit Medical Log")
 
@@ -90,9 +98,9 @@ def watershed_herpetarium_med_log():
                     return
                 
                 if filter_option == "Watershed":
-                    add_watershed_med_log(user_id, formatted_time, individual, observation, intervention, notes)
+                    add_watershed_med_log(user_id, formatted_time, individual, observation, intervention, notes, formatted_log_time)
                 elif filter_option == "Herpetarium":
-                    add_herp_med_log(user_id, formatted_time, individual, observation, intervention, notes)
+                    add_herp_med_log(user_id, formatted_time, individual, observation, intervention, notes, formatted_log_time)
 
                 st.success("Medical log submitted successfully!")
                 time.sleep(1)

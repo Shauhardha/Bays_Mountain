@@ -11,11 +11,13 @@ def navbar():
     st.sidebar.page_link('pages/notes.py', label='✍ Notes')
     st.sidebar.page_link('pages/calendar.py', label='📅 Calendar')
     st.sidebar.page_link('pages/ethogram_form.py', label='📝 Ethogram Form')
+    st.sidebar.page_link('pages/Data_Visualization.py', label='📈 Data Visualization')
     if "role" in st.session_state and st.session_state["role"] == "admin":
         st.sidebar.page_link('pages/Admin.py', label='💻 Admin')
         st.sidebar.page_link('pages/habitat.py', label='🦊 Animal & Habitat')
     else:
         st.sidebar.page_link('pages/Admin.py', label='👨‍🌾 User')
+    
 
     st.markdown(
         """

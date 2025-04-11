@@ -53,41 +53,145 @@ def watershed_herpetarium_fed_log():
             st.title("Watershed Feeding Log")
 
             if 'water_form_submitted' in st.session_state and st.session_state.water_form_submitted:
-                st.session_state["location_key"] = None
-                st.session_state["watershed_dailycare"] = []
+                st.session_state["location"] = []
+                st.session_state["pond1_dailycare"] = []
+                # st.session_state["pond2_dailycare"] = []
+                # st.session_state["pond3_dailycare"] = []
+                # st.session_state["tank1_dailycare"] = []
+                # st.session_state["tank2_dailycare"] = []
+                # st.session_state["tank3_dailycare"] = []
+                # st.session_state["tank4_dailycare"] = []
+                # st.session_state["tank5_dailycare"] = []
+                # st.session_state["tank6_dailycare"] = []
                 st.session_state["other_care_input"] = ""
                 st.session_state["watershed_notes_key"] = ""
+
+                st.session_state["log_time"] = datetime.now().time()
                 
                 st.session_state.water_form_submitted = False
                 st.rerun() 
 
             with st.container(border=True):
-                location = st.selectbox("Pond/Tank Location", ["Pond 1", "Pond 2", "Pond 3", "Tank 1", "Tank 2", "Tank 3", "Tank 4", "Tank 5", "Tank 6"], key="location_key", index=None)
+                #location = st.selectbox("Pond/Tank Location", ["Pond 1", "Pond 2", "Pond 3", "Tank 1", "Tank 2", "Tank 3", "Tank 4", "Tank 5", "Tank 6"], key="location_key", index=None)
 
-                watershed_dailycare = st.multiselect(
-                    "Daily care performed",
+                input_dict = {}
+
+                st.subheader("Daily Care Performed")
+
+                location = st.multiselect(
+                    "Pond/Tank Location",
+                    ["Pond 1", "Pond 2", "Pond 3", "Tank 1", "Tank 2", "Tank 3", "Tank 4", "Tank 5", "Tank 6"],
+                    help="You can choose multiple items.",
+                    key="location"
+                )
+                
+                pond1_dailycare = st.multiselect(
+                    "Daily Care Type",
                     ["Daily check", "Glass cleaning", "Waste removal", "Water change", "Gravel clean/change", "Other"],
                     help="You can choose multiple items.",
-                    key="watershed_dailycare"
+                    key="pond1_dailycare"
                 )
 
-                if "Other" in watershed_dailycare:
+                if pond1_dailycare: input_dict['Pond 1'] = pond1_dailycare
+
+                # pond2_dailycare = st.multiselect(
+                #     "Pond 2",
+                #     ["Daily check", "Glass cleaning", "Waste removal", "Water change", "Gravel clean/change", "Other"],
+                #     help="You can choose multiple items.",
+                #     key="pond2_dailycare"
+                # )
+
+                # if pond2_dailycare: input_dict['Pond 2'] = pond2_dailycare
+
+                # pond3_dailycare = st.multiselect(
+                #     "Pond 3",
+                #     ["Daily check", "Glass cleaning", "Waste removal", "Water change", "Gravel clean/change", "Other"],
+                #     help="You can choose multiple items.",
+                #     key="pond3_dailycare"
+                # )
+
+                # if pond3_dailycare: input_dict['Pond 3'] = pond3_dailycare
+
+                # tank1_dailycare = st.multiselect(
+                #     "Tank 1",
+                #     ["Daily check", "Glass cleaning", "Waste removal", "Water change", "Gravel clean/change", "Other"],
+                #     help="You can choose multiple items.",
+                #     key="tank1_dailycare"
+                # )
+
+                # if tank1_dailycare: input_dict['Tank 1'] = tank1_dailycare
+
+                # tank2_dailycare = st.multiselect(
+                #     "Tank 2",
+                #     ["Daily check", "Glass cleaning", "Waste removal", "Water change", "Gravel clean/change", "Other"],
+                #     help="You can choose multiple items.",
+                #     key="tank2_dailycare"
+                # )
+
+                # if tank2_dailycare: input_dict['Tank 2'] = tank2_dailycare
+
+                # tank3_dailycare = st.multiselect(
+                #     "Tank 3",
+                #     ["Daily check", "Glass cleaning", "Waste removal", "Water change", "Gravel clean/change", "Other"],
+                #     help="You can choose multiple items.",
+                #     key="tank3_dailycare"
+                # )
+
+                # if tank3_dailycare: input_dict['Tank 3'] = tank3_dailycare
+
+                # tank4_dailycare = st.multiselect(
+                #     "Tank 4",
+                #     ["Daily check", "Glass cleaning", "Waste removal", "Water change", "Gravel clean/change", "Other"],
+                #     help="You can choose multiple items.",
+                #     key="tank4_dailycare"
+                # )
+
+                # if tank4_dailycare: input_dict['Tank 4'] = tank4_dailycare
+
+                # tank5_dailycare = st.multiselect(
+                #     "Tank 5",
+                #     ["Daily check", "Glass cleaning", "Waste removal", "Water change", "Gravel clean/change", "Other"],
+                #     help="You can choose multiple items.",
+                #     key="tank5_dailycare"
+                # )
+
+                # if tank5_dailycare: input_dict['Tank 5'] = tank5_dailycare
+
+                # tank6_dailycare = st.multiselect(
+                #     "Tank 6",
+                #     ["Daily check", "Glass cleaning", "Waste removal", "Water change", "Gravel clean/change", "Other"],
+                #     help="You can choose multiple items.",
+                #     key="tank6_dailycare"
+                # )
+
+                # if tank6_dailycare: input_dict['Tank 6'] = tank6_dailycare
+
+                # #if "Other" in watershed_dailycare:
+                if "Other" in pond1_dailycare: # or "Other" in pond2_dailycare or "Other" in pond3_dailycare or "Other" in tank1_dailycare or "Other" in tank2_dailycare or "Other" in tank3_dailycare or "Other" in tank4_dailycare or "Other" in tank5_dailycare or "Other" in tank6_dailycare:    
                     other_care = st.text_input('Please specify the "Other" care performed:', key="other_care_input")
 
                 watershed_notes = st.text_area("Notes", key="watershed_notes_key")
+
+                st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+                log_time = st.time_input("Log Time", key="log_time", step=300)
+                st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+
+                formatted_log_time = log_time.strftime("%H:%M:%S")
 
                 submitted = st.button("Submit Feeding Log")
 
                 if submitted:
                     if not location:
-                        st.warning("Please select Pond/Tank Location")
+                        st.warning("Please select the Pond/Tank Location")
                         return
                     
-                    if not watershed_dailycare:
-                        st.warning("Please select the food items fed")
-                        return
                     
-                    if "Other" in watershed_dailycare:
+                    if not pond1_dailycare: # and not pond2_dailycare and not pond3_dailycare and not tank1_dailycare and not tank2_dailycare and not tank3_dailycare and not tank4_dailycare and not tank5_dailycare and not tank6_dailycare:
+                        st.warning("Please fill the Pond/Tank Location and the daily care performed")
+                        return
+                
+                    
+                    if "Other" in pond1_dailycare: # or "Other" in pond2_dailycare or "Other" in pond3_dailycare or "Other" in tank1_dailycare or "Other" in tank2_dailycare or "Other" in tank3_dailycare or "Other" in tank4_dailycare or "Other" in tank5_dailycare or "Other" in tank6_dailycare:
                         if not other_care:
                             st.warning('Please specify the "Other" care performed')
                             return
@@ -95,13 +199,15 @@ def watershed_herpetarium_fed_log():
                     if not watershed_notes:
                         watershed_notes = "None"
 
-                    for item in watershed_dailycare:
-                        if item == "Other":
-                            watershed_care_name = other_care
-                        else:
-                            watershed_care_name = "None"
+                    #for location, selected_items in input_dict.items():
+                    for loc in location:                       
+                        for item in pond1_dailycare:
+                            if item == "Other":
+                                watershed_care_name = other_care
+                            else:
+                                watershed_care_name = "None"
 
-                        add_watershed_care_log(user_id, formatted_time, location, item, watershed_care_name, watershed_notes)
+                            add_watershed_care_log(user_id, formatted_time, loc, item, watershed_care_name, watershed_notes, formatted_log_time)
                         
                     st.success("Daily Care log submitted successfully!")
                     time.sleep(1)
@@ -113,44 +219,97 @@ def watershed_herpetarium_fed_log():
             st.title("Herpetarium Feeding Log")
             
             if 'herp_form_submitted' in st.session_state and st.session_state.herp_form_submitted:
-                st.session_state["animal_key"] = None
-                st.session_state["herpetarium_care_key"] = []
+                st.session_state["animal_key"] = []
+                st.session_state["herpetarium_food1_key"] = []
+                # st.session_state["herpetarium_food2_key"] = []
+                # st.session_state["herpetarium_food3_key"] = []
+                # st.session_state["herpetarium_food4_key"] = []
                 st.session_state["herp_other_care_input"] = ""
                 st.session_state["herp_indv_no_key"] = ""
                 st.session_state["herp_notes_key"] = ""
+
+                st.session_state["log_time"] = datetime.now().time()
                 
                 st.session_state.herp_form_submitted = False
                 st.rerun() 
 
             with st.container(border=True):
-                animal = st.selectbox("Animal Type", ["Snakes", "Frogs/Salamanders/Lizards", "Turtles (inside)", "Turtles (outside)"], key="animal_key", index=None)
+                #animal = st.selectbox("Animal Type", ["Snakes", "Frogs/Salamanders/Lizards", "Turtles (inside)", "Turtles (outside)"], key="animal_key", index=None)
 
-                herpetarium_dailycare = st.multiselect(
-                    "Daily care performed",
-                    ["Daily check", "Water change", "Waste removal", "Bedding change", "Pond cleaning", "Weed-eating", "Enrichment", "Other"],
+                #input_dict = {}
+
+                st.subheader("Daily Care Performed")
+
+                animal = st.multiselect(
+                    "Animal Type",
+                    ["Snakes", "Frogs/Salamanders/Lizards", "Turtles (inside)", "Turtles (outside)"],
                     help="You can choose multiple items.",
-                    key="herpetarium_care_key"
+                    key="animal_key"
+                )
+                
+                options = ["Daily check", "Water change", "Waste removal", "Bedding change", "Pond cleaning", "Weed-eating", "Enrichment", "Other"]
+                
+                herpetarium_food1 = st.multiselect(
+                    "Daily Care Type",
+                    options,
+                    help="You can choose multiple items.",
+                    key="herpetarium_food1_key"
                 )
 
-                if "Other" in herpetarium_dailycare:
+                # if herpetarium_food1: input_dict['Snakes'] = herpetarium_food1
+
+                # herpetarium_food2 = st.multiselect(
+                #     "Frogs/Salamanders/Lizards",
+                #     options,
+                #     help="You can choose multiple items.",
+                #     key="herpetarium_food2_key"
+                # )
+
+                # if herpetarium_food2: input_dict['Frogs/Salamanders/Lizards'] = herpetarium_food2
+
+                # herpetarium_food3 = st.multiselect(
+                #     "Turtles (inside)",
+                #     options,
+                #     help="You can choose multiple items.",
+                #     key="herpetarium_food3_key"
+                # )
+
+                # if herpetarium_food3: input_dict['Turtles (inside)'] = herpetarium_food3
+
+                # herpetarium_food4 = st.multiselect(
+                #     "Turtles (outside)",
+                #     options,
+                #     help="You can choose multiple items.",
+                #     key="herpetarium_food4_key"
+                # )
+
+                # if herpetarium_food4: input_dict['Turtles (outside)'] = herpetarium_food4
+
+                if "Other" in herpetarium_food1: # or "Other" in herpetarium_food2 or "Other" in herpetarium_food3 or "Other" in herpetarium_food4:
                     herp_other_care = st.text_input('Please specify the "Other" care performed:', key="herp_other_care_input")
 
                 enclosures_not_done = st.text_input('Any enclosures not done?', key="herp_indv_no_key")
 
                 herp_notes = st.text_area("Notes", key="herp_notes_key")
 
+                st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+                log_time = st.time_input("Log Time", key="log_time", step=300)
+                st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+
+                formatted_log_time = log_time.strftime("%H:%M:%S")
+
                 submitted = st.button("Submit Feeding Log")
 
                 if submitted:
-                    if not animal:
+                    if not animal: # and not herpetarium_food2 and not herpetarium_food3 and not herpetarium_food4:
                         st.warning("Please select the Animal Type")
+                        return                    
+                    
+                    if not herpetarium_food1: # and not herpetarium_food2 and not herpetarium_food3 and not herpetarium_food4:
+                        st.warning("Please select the Daily Care Type")
                         return
                     
-                    if not herpetarium_dailycare:
-                        st.warning("Please select the food items fed")
-                        return
-                    
-                    if "Other" in herpetarium_dailycare:
+                    if "Other" in herpetarium_food1: # or "Other" in herpetarium_food2 or "Other" in herpetarium_food3 or "Other" in herpetarium_food4:
                         if not herp_other_care:
                             st.warning('Please specify the "Other" care performed')
                             return
@@ -161,13 +320,15 @@ def watershed_herpetarium_fed_log():
                     if not herp_notes:
                         herp_notes = "None"
 
-                    for item in herpetarium_dailycare:
-                        if item == "Other":
-                            herp_care_name = herp_other_care
-                        else:
-                            herp_care_name = "None"
+                    # for animal, selected_items in input_dict.items():
+                    for anml in animal:  
+                        for item in herpetarium_food1:
+                            if item == "Other":
+                                herp_care_name = herp_other_care
+                            else:
+                                herp_care_name = "None"
 
-                        add_herp_care_log(user_id, formatted_time, animal, item, herp_care_name, enclosures_not_done, herp_notes)
+                            add_herp_care_log(user_id, formatted_time, anml, item, herp_care_name, enclosures_not_done, herp_notes, formatted_log_time)
                         
                     st.success("Daily Care log submitted successfully!")
                     time.sleep(1)

@@ -74,6 +74,8 @@ def feeding_log():
             st.session_state["meds_added"] = None
             st.session_state["med_type"] = ""
             st.session_state["dose"] = 0
+
+            st.session_state["log_time"] = datetime.now().time()
             
             # Reset the form submission flag to prevent continuous resetting
             st.session_state.form_submitted = False
@@ -197,6 +199,12 @@ def feeding_log():
 
             individual_notes = st.text_area("Notes", key="individual_notes")
 
+            st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+            log_time = st.time_input("Log Time", key="log_time", step=300)
+            st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+
+            formatted_log_time = log_time.strftime("%H:%M:%S")
+
             med_log_id = 0
 
             submitted = st.button("Submit Feeding Log")                
@@ -250,6 +258,8 @@ def feeding_log():
                         st.error("Please fill out the dosage.")
                         return
 
+                    meds_taken=True
+
                     # Add medication log
                     med_log_id = add_medslog(
                         user_id, 
@@ -260,14 +270,15 @@ def feeding_log():
                         med_type, 
                         dose, 
                         administration_type, 
-                        meds_taken=True
+                        meds_taken,
+                        formatted_log_time
                     )
 
                 # Add feeding log (med_log_id is None if no meds were added)
 
                 
                 add_feedinglog(user_id, formatted_time, animal_group, individual_name, food_type, amount_fed, observation_type, leftover_food, deer_feed_scoops, meds_added, individual_notes, med_log_id,
-                    nb_amount_fed, chicken_amount_fed, prey_amount_fed, fruits_amount_fed, veg_amount_fed, fish_amount_fed, mazuri_amount_fed, total_food_quantity)
+                    nb_amount_fed, chicken_amount_fed, prey_amount_fed, fruits_amount_fed, veg_amount_fed, fish_amount_fed, mazuri_amount_fed, total_food_quantity, formatted_log_time)
 
                 st.success("Individual feeding log submitted successfully!")
                 time.sleep(1)

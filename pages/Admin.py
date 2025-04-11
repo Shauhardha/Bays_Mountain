@@ -210,6 +210,14 @@ def admin_page():
                     df_users = pd.DataFrame(users, columns=column_names)
                     st.write(df_users)  
 
+                st.download_button(
+                    label="Download CSV",
+                    data=df_users.to_csv().encode("utf-8"),
+                    file_name="User_Data.csv",
+                    mime="text/csv",
+                    icon=":material/download:",
+                )
+
             #Button to navigate to add user section
             st.markdown("""
                 <a href="#add_users">

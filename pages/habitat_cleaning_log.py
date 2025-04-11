@@ -60,6 +60,8 @@ def habitat_cleaning_log():
             st.session_state.waste_removal = "No"
             st.session_state.brush_removal = "No"
             st.session_state.fence_maintenance = "No"
+
+            st.session_state["log_time"] = datetime.now().time()
             
             st.session_state.form_submitted = False
             st.rerun() 
@@ -146,6 +148,12 @@ def habitat_cleaning_log():
             #cleaning_type = st.selectbox("Select Cleaning Type", ["Deep Clean", "Routine Clean", "Spot Clean"], key="cleaning_type", index=None)
 
             findings = st.text_input("Findings", key="findings") #if findings == "": findings = "NSF"
+
+            st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+            log_time = st.time_input("Log Time", key="log_time", step=300)
+            st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+
+            formatted_log_time = log_time.strftime("%H:%M:%S")
             
         
             if st.button("Submit Habitat Cleaning Log"):
@@ -166,7 +174,7 @@ def habitat_cleaning_log():
                 if not findings:
                     findings = "NSF"
                 
-                add_habitat_cleaning_log(user_id, formatted_time, animal_group, observation_type, habitat_name, findings, description, pad_cleaning, water_change, pond_cleaning, waste_removal, brush_removal, fence_maintenance)
+                add_habitat_cleaning_log(user_id, formatted_time, animal_group, observation_type, habitat_name, findings, description, pad_cleaning, water_change, pond_cleaning, waste_removal, brush_removal, fence_maintenance, formatted_log_time)
 
                 st.success("Habitat cleaning log submitted successfully!")
                 time.sleep(1)

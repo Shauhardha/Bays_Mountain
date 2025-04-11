@@ -55,6 +55,8 @@ def enrichment_log():
             st.session_state.animal_key = get_unique_key("animal_select")
             st.session_state.observation_key = get_unique_key("observation_select")
             st.session_state.enrichment_key = get_unique_key("enrichment_select")
+
+            st.session_state["log_time"] = datetime.datetime.now().time()
            
             st.session_state.form_submitted = False
             st.rerun()  # Refresh the page to clear the form
@@ -129,7 +131,13 @@ def enrichment_log():
                 delay=300,
                 label_visibility="visible",
                 key=st.session_state.observation_key,
-            ) 
+            )
+
+            st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+            log_time = st.time_input("Log Time", key="log_time", step=300)
+            st.markdown("<hr style='margin:4px 0;'>", unsafe_allow_html=True)
+
+            formatted_log_time = log_time.strftime("%H:%M:%S")
 
             if st.button("Submit Enrichment Log"):
 
@@ -159,7 +167,8 @@ def enrichment_log():
                     details, 
                     formatted_time_in, 
                     formatted_time_out,
-                    observation_type
+                    observation_type,
+                    formatted_log_time
                 )
                 
                 st.success("Enrichment log submitted successfully!")
