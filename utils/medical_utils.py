@@ -1,4 +1,5 @@
 from database.postgresql_connection import init_postgres_connection
+import pandas as pd
 
 def add_injury_log(user_id, datetime, animal_group, individual_name, encounter_type, injury_type, injury_desc, exam_type, log_time):
     conn = init_postgres_connection()
@@ -95,3 +96,29 @@ def add_herp_med_log(user_id, datetime, individual, observation, intervention, n
     cursor.execute(query, params)
     conn.commit()
     conn.close()
+
+def get_meds_data(from_date, to_date):
+    conn = init_postgres_connection()
+    cursor = conn.cursor()
+
+    query_string = """
+        select 
+            (select initcap(username) from users u where a.user_id = u.user_id) as UserName,
+            datetime,
+            animal_group as "Animal",
+            administration_route,
+			meds_taken,
+			meloxicam as "Meloxicam",
+			cephalexin as "Cephalexin",
+			gabapentin as "Gabapentin",
+			bravecto as "Bravecto",
+			intercepter as "Intercepter"
+			from med_log a
+			where datetime between %s and %s
+    """
+    # params = [f'%{from_date}%', f'%{to_date}%']
+    # cursor.execute(query_string, params)
+    # reminders = cursor.fetchall()
+    df = pd.read_sql_query(query_string, conn, params=(from_date, to_date))
+    conn.close()
+    return df

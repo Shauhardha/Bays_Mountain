@@ -9,11 +9,11 @@ from utils.navbar import navbar
 #st.set_page_config(initial_sidebar_state="collapsed")
 
 def main():
-    # if "logged_in" not in st.session_state:
+    # if "logged_in" not in st.session_state: 
     #     st.session_state.logged_in = False  # Default to not logged in
 
     if "logged_in" not in st.session_state:
-        if cookie_controller.get("logged_in") == True:
+        if cookie_controller.get("logged_in") == True: 
             st.session_state["user_id"] = cookie_controller.get("user_id")
             st.session_state["username"] = cookie_controller.get("username")
             st.session_state["role"] = cookie_controller.get("role")
@@ -44,8 +44,10 @@ def dashboard():
     st.title("BaysTrack Dashboard")
     # Wrap the notes content inside the white-bordered container
     col1, col2 = st.columns([1, 1])
-    with col1: 
-        st.header("Notes")
+    with col1:
+        fil1, fil2 = st.columns([1, 0.7])
+        with fil1: 
+            st.header("Notes")
         with st.container(height=300, border=True):
             notes = get_notes_app(str(user_id))
             if notes:
@@ -60,7 +62,7 @@ def dashboard():
         with fil1:
             st.header("Reminders")    
         with fil2:
-            filter_option = st.radio("Reminder", ("All", "Self"), horizontal=True)
+            filter_option = st.radio("Reminders", options=("All", "Self"), horizontal=True, label_visibility="collapsed")
         with st.container(height=300, border=True):
             if filter_option == "All":
                 var = ''
@@ -91,7 +93,17 @@ def dashboard():
             st.markdown(hide_sidebar_css, unsafe_allow_html=True)
             st.session_state.logged_in = False
             clear_cookies()
-            st.rerun()
+            for key in list(st.session_state.keys()):
+                del st.session_state[key]
+            st.write(
+                f"""
+                <meta http-equiv="refresh" content="0; url=/" />
+                """,
+                unsafe_allow_html=True
+            )
+            # Add st.stop to ensure no further code execution
+            st.stop()
+            # st.rerun()
             
 
         # JavaScript injection for styling

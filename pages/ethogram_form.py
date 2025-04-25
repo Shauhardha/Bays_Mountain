@@ -42,6 +42,9 @@ def main():
         with st.container(border=True):
             if st.button("Feeding Log", use_container_width=True):
                 st.switch_page("pages/feeding_log.py")
+            
+            if st.button("Medical Log", use_container_width=True):
+                st.switch_page("pages/medical_log.py")
 
             if st.button("Enrichment Log", use_container_width=True):
                 st.switch_page("pages/enrichment_log.py")
@@ -49,8 +52,6 @@ def main():
             if st.button("Habitat Cleaning Log", use_container_width=True):
                 st.switch_page("pages/habitat_cleaning_log.py")
 
-            if st.button("Medical Log", use_container_width=True):
-                st.switch_page("pages/medical_log.py")
 
         st.write("---")
 

@@ -14,7 +14,7 @@ def navbar():
     st.sidebar.page_link('pages/Data_Visualization.py', label='📈 Data Visualization')
     if "role" in st.session_state and st.session_state["role"] == "admin":
         st.sidebar.page_link('pages/Admin.py', label='💻 Admin')
-        st.sidebar.page_link('pages/habitat.py', label='🦊 Animal & Habitat')
+    #    st.sidebar.page_link('pages/habitat.py', label='🦊 Animal & Habitat')
     else:
         st.sidebar.page_link('pages/Admin.py', label='👨‍🌾 User')
     

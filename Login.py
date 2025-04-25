@@ -3,8 +3,10 @@ from utils.user_utils import authenticate_user, get_user_details
 import time
 #from utils.cookies_manage import cookie_controller
 from streamlit_cookies_controller import CookieController
+#from streamlit_local_storage import LocalStorage
 
 cookie_controller = CookieController()
+# cookie_controller = LocalStorage()
 
 def login_page():
     st.title("Login")
@@ -39,3 +41,4 @@ def clear_cookies():
     cookie_controller.remove("username")
     cookie_controller.remove("role")
     cookie_controller.remove("logged_in")
+    # cookie_controller.deleteAll()

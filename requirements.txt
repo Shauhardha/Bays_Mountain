@@ -4,6 +4,7 @@ passlib==1.7.4
 bcrypt==4.3.0
 plotly==6.0.1
 streamlit_cookies_controller==0.0.4
+streamlit_local_storage==0.0.25
 streamlit==1.32.0
 streamlit_calendar==1.2.1
 streamlit_free_text_select==0.2.0
