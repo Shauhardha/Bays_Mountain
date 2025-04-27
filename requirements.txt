@@ -8,3 +8,5 @@ streamlit_local_storage==0.0.25
 streamlit==1.32.0
 streamlit_calendar==1.2.1
 streamlit_free_text_select==0.2.0
+matplotlib==3.8.4
+altair==5.0.1
